@@ -16,7 +16,7 @@ class _CountryWidgetState extends State<CountryWidget> {
         value: widget.isChecked,
         onChanged: (value) {},
       ),
-      title: Icon(Icons.flag),
+      title: const Icon(Icons.flag),
       trailing: const Text('Country Name'),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:location_widget/state/user_view_mode.dart';
 import 'package:location_widget/widgets/country_widger.dart';
@@ -22,53 +24,62 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Consumer<UserViewModel>(
         builder: (context, value, child) {
           return Padding(
-            padding: const EdgeInsets.only(left: 400, right: 400),
-            child: Container(
-              constraints: BoxConstraints(
-                maxHeight: value.maxHeight,
-              ),
-              color: Colors.grey.shade300,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Text('Location'),
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              value.minimizeMaximize();
-                            },
-                            icon: Icon(value.isVisible
-                                ? Icons.minimize
-                                : Icons.laptop_windows_rounded),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.arrow_left),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Visibility(
-                    visible: value.isVisible,
-                    replacement: const SizedBox(),
-                    child: Expanded(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return CountryWidget(isChecked: false);
-                        },
-                        itemCount: 5,
+            padding: const EdgeInsets.only(left: 400, right: 400, top: 100),
+            child: Transform.rotate(
+              angle: value.angle,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxHeight: value.maxHeight,
+                  maxWidth: value.maxWidth,
+                ),
+                color: Colors.grey.shade300,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: Text('Location'),
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                value.minimizeMaximize();
+                              },
+                              icon: Icon(value.isVisible
+                                  ? Icons.minimize
+                                  : Icons.laptop_windows_rounded),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                value.minimizeMaximize();
+                                value.rotate();
+                              },
+                              icon: value.isRotated
+                                  ? Icon(Icons.arrow_downward)
+                                  : Icon(Icons.arrow_left),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Visibility(
+                      visible: value.isVisible,
+                      replacement: const SizedBox(),
+                      child: Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return CountryWidget(isChecked: false);
+                          },
+                          itemCount: 5,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
