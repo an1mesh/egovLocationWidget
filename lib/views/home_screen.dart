@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:location_widget/state/user_view_mode.dart';
 import 'package:location_widget/widgets/country_widger.dart';
@@ -13,6 +11,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<String> countries = [
+    'India',
+    'Canada',
+    'America',
+    'England',
+    'Australia'
+  ];
+  final searchController = TextEditingController();
+  List<String> searchResults = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 value.rotate();
                               },
                               icon: value.isRotated
-                                  ? Icon(Icons.arrow_downward)
-                                  : Icon(Icons.arrow_left),
+                                  ? const Icon(Icons.arrow_downward)
+                                  : const Icon(Icons.arrow_left),
                             ),
                           ],
                         ),
@@ -69,13 +77,53 @@ class _HomeScreenState extends State<HomeScreen> {
                     Visibility(
                       visible: value.isVisible,
                       replacement: const SizedBox(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 12.0,
+                          right: 12.0,
+                        ),
+                        child: TextField(
+                          controller: searchController,
+                          onChanged: (query) {
+                            value.searchQuery(
+                                countries: countries, query: query);
+                            if (value.searchResults != []) {
+                              value.isClearVisibleCheck(query);
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Search countries',
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: value.isClearVisible,
+                      replacement: const SizedBox(),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              value.clearList();
+                            },
+                            icon: const Icon(Icons.clear),
+                          ),
+                          const Text('Clear All'),
+                        ],
+                      ),
+                    ),
+                    Visibility(
+                      visible: value.isVisible,
+                      replacement: const SizedBox(),
                       child: Expanded(
                         child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return CountryWidget(isChecked: false);
-                          },
-                          itemCount: 5,
-                        ),
+                            itemBuilder: (context, index) {
+                              return CountryWidget(
+                                isChecked: value.isChecked,
+                                country: value.searchResults[index],
+                              );
+                            },
+                            itemCount: value.searchResults.length),
                       ),
                     ),
                   ],

@@ -5,16 +5,27 @@ import 'package:flutter/material.dart';
 class UserViewModel with ChangeNotifier {
   bool isVisible = true;
   bool isRotated = false;
-  double maxHeight = 300.0;
+  bool isClearVisible = false;
+  bool isChecked = false;
+  double maxHeight = 400.0;
   double maxWidth = 400.0;
   double angle = 0.0;
+
+  List<String> searchResults = [
+    'India',
+    'Canada',
+    'America',
+    'England',
+    'Australia'
+  ];
 
   void minimizeMaximize() {
     isVisible = !isVisible;
     if (isVisible == false) {
+      isClearVisible = false;
       maxHeight = 50.0;
     } else {
-      maxHeight = 300.0;
+      maxHeight = 400.0;
     }
     notifyListeners();
   }
@@ -29,6 +40,34 @@ class UserViewModel with ChangeNotifier {
       maxWidth = 400.0;
     }
 
+    notifyListeners();
+  }
+
+  void searchQuery({required List<String> countries, required String query}) {
+    searchResults = countries
+        .where((country) => country.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    notifyListeners();
+  }
+
+  void clearList() {
+    searchResults = [];
+    isClearVisible = false;
+    notifyListeners();
+  }
+
+  void isClearVisibleCheck(String query) {
+    if (query == '') {
+      isClearVisible = false;
+    } else {
+      isClearVisible = true;
+    }
+    notifyListeners();
+  }
+
+  void toggleCheckBox() {
+    isChecked = !isChecked;
     notifyListeners();
   }
 }
