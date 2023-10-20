@@ -78,6 +78,5 @@ The `UserViewModel` class is a `ChangeNotifier` that manages the application sta
 - `isClearVisibleCheck(String query)`: Checks whether the "Clear All" button should be visible based on the search query. Notifies listeners of state changes.
 - `toggleCheckBox()`: Toggles the checkbox state. Notifies listeners of state changes.
 
-  **GitHub Branches**: This project is actively developed on both the `main` and `feature/location_widget` branches on [GitHub](https://github.com/your-username/your-repo).
-
+**GitHub Branches**: This project is actively developed on both the `main` and `feature/location_widget` branches on [GitHub](https://github.com/an1mesh/egovLocationWidget).
 
