@@ -14,15 +14,17 @@ class CountryWidget extends StatefulWidget {
 class _CountryWidgetState extends State<CountryWidget> {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Checkbox(
-        value: widget.isChecked,
-        onChanged: (value) {
-          Provider.of<UserViewModel>(context, listen: false).toggleCheckBox();
-        },
-      ),
-      title: const Icon(Icons.flag),
-      trailing: Text(widget.country),
+    return Row(
+      children: [
+        Checkbox(
+          value: widget.isChecked,
+          onChanged: (value) {
+            Provider.of<UserViewModel>(context, listen: false).toggleCheckBox();
+          },
+        ),
+        const Icon(Icons.flag),
+        Text(widget.country),
+      ],
     );
   }
 }
